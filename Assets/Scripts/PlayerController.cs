@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 100f;
     private Rigidbody rb;
     private Animator animator;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip eatingSound;
 
     private void Start()
     {
@@ -73,5 +75,13 @@ public class PlayerController : MonoBehaviour
 
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.Rotate(Vector3.up * rotation);
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Food"))
+        {
+            audioSource.PlayOneShot(eatingSound);
+            Destroy(other.gameObject);
+        }
     }
 }
